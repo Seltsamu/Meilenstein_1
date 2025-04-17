@@ -22,4 +22,16 @@ public class Mailbox
         _mailId = _nextId;
         _nextId++;
     }
+
+    public static bool operator ==(Mailbox mail1, Mailbox mail2)
+    {
+        if (mail1.MailId == mail2._mailId)
+            return true;
+        return false;
+    }
+
+    public static bool operator !=(Mailbox mail1, Mailbox mail2)
+    {
+        return !(mail1 == mail2);
+    }
 }

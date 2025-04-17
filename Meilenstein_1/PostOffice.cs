@@ -1,7 +1,4 @@
-﻿using System.IO.Enumeration;
-using System.Reflection.Metadata.Ecma335;
-
-namespace Meilenstein_1;
+﻿namespace Meilenstein_1;
 
 public class PostOffice
 {
@@ -10,6 +7,11 @@ public class PostOffice
     private Mailbox[] _mailbox;
     private int _freeSlot = 0;
     private int _mailboxCapacity;
+
+    public int Freeslot
+    {
+        get => _freeSlot;
+    }
 
 
     public PostOffice(string name, string adress, int mailboxCapacity)
@@ -91,5 +93,11 @@ public class PostOffice
         int contents = _mailbox[i].Contents;
         _mailbox[i].Contents = 0;
         return contents;
+    }
+
+    public int PostmanDelivery(int i, out Company owner)
+    {
+        owner = _mailbox[i].Owner;
+        return EmptyMailbox(_mailbox[i]);
     }
 }

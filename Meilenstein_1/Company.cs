@@ -4,6 +4,8 @@ public class Company
 {
     private string _name;
     private string _adress;
+    private int _letters = 0;
+    // TODO create Mailbox array for the company
 
     public Company(string name, string adress)
     {
@@ -27,8 +29,15 @@ public class Company
         postOffice.CancelMailbox(this);
     }
 
-    public int EmptyMailbox(Mailbox mail)
+    public void RecieveLetters(int letters)
     {
-        return mail.Contents;
+        _letters += letters;
+    }
+
+    public void EmptyMailbox(Mailbox mail)
+    {
+        if (mail.Owner == this)
+            _letters += mail.Contents;
+        throw new ArgumentException("This Mailbox doesn`t belong to you");
     }
 }
