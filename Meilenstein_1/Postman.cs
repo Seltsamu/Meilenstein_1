@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace Meilenstein_1;
+﻿namespace Meilenstein_1;
 
 public class Postman
 {
@@ -15,12 +13,14 @@ public class Postman
         _nextId++;
     }
 
-    public static void Deliver(PostOffice postOffice)
+    public void Deliver(PostOffice postOffice)
     {
         for (int i = 0; i < postOffice.Freeslot; i++)
         {
-           int letters = postOffice.PostmanDelivery(i, out Company owner);
-           owner.RecieveLetters(letters);
+            int mails = postOffice.PostmanDelivery(i, out Company owner);
+            owner.RecieveLetters(mails);
         }
+
+        Console.WriteLine($"\x1b[3mdelivered mails from {postOffice.Name}\x1b[0m");
     }
 }

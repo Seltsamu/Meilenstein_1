@@ -2,30 +2,53 @@
 
 public class Mailbox
 {
+    public Company Owner { get; }
+    public PostOffice Manager { get; }
     private readonly int _mailId;
     private static int _nextId = 1;
-    private Company _owner;
-    private int _contents;
-
-    public int Contents
-    {
-        get => _contents;
-        set => _contents = value;
-    }
+    private readonly Mail[]? _mail = new Mail[5];
+    private int _freeslot = 0;
 
     public int MailId => _mailId;
 
-    public Company Owner => _owner;
-    public Mailbox(Company owner)
+
+    public Mailbox(Company owner, PostOffice manager)
     {
-        _owner = owner;
+        Owner = owner;
+        Manager = manager;
         _mailId = _nextId;
         _nextId++;
     }
 
-    public static bool operator ==(Mailbox mail1, Mailbox mail2)
+    public void FileMail(Mail mail)
     {
-        if (mail1.MailId == mail2._mailId)
+        if (_freeslot >= _mail!.Length)
+            throw new ArgumentException("Mailbox is full - can´t hold anymore mails");
+
+        _mail[_freeslot] = mail;
+        _freeslot++;
+    }
+
+    public Mail[]? Empty()
+    {
+        if (_freeslot == 0)
+            return null;
+
+        Mail[] mail = new Mail[_freeslot];
+        for (int i = 0; i < _freeslot; i++)
+        {
+            mail[i] = _mail![i];
+            _mail[i] = null!;
+        }
+
+        _freeslot = 0;
+
+        return mail;
+    }
+
+    public static bool operator ==(Mailbox? mail1, Mailbox? mail2)
+    {
+        if (mail1!.MailId == mail2!._mailId)
             return true;
         return false;
     }
